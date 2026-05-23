@@ -1,0 +1,123 @@
+.space-mono-regular {
+  font-family: "Space Mono", monospace;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.space-mono-bold {
+  font-family: "Space Mono", monospace;
+  font-weight: 700;
+  font-style: normal;
+}
+
+.space-mono-regular-italic {
+  font-family: "Space Mono", monospace;
+  font-weight: 400;
+  font-style: italic;
+}
+
+.space-mono-bold-italic {
+  font-family: "Space Mono", monospace;
+  font-weight: 700;
+  font-style: italic;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: "Space Mono", monospace;
+  background-color: rgb(22, 21, 21);
+}
+
+header {
+  display: flex;
+  justify-content: center;
+}
+
+h2 {
+  color: azure;
+  text-align: center;
+}
+
+.buttons {
+  display: flex;
+  justify-content: center;
+  gap: 4rem;
+  margin: 1rem 0 1rem 0;
+}
+
+#option1, #option2, #option3 {
+  width: 6rem;
+  height: 3rem;
+  border-radius: 1rem;
+
+  background-color: transparent;
+  border: 1px solid cornflowerblue;
+  color: azure;
+
+  font: inherit;
+  cursor: pointer;
+
+  /* smooth motion */
+  transition: transform 0.12s cubic-bezier(.2,.8,.2,1), box-shadow 0.12s;
+
+  /* raised look */
+  box-shadow: 0 4px 0 cornflowerblue;
+}
+
+#option1:hover,
+#option2:hover,
+#option3:hover {
+  border-color: cornflowerblue;
+}
+
+#option1:active,
+#option2:active,
+#option3:active {
+  transform: translateY(3px) scale(0.98);
+  box-shadow: 0 0 0 cornflowerblue;
+}
+
+.header-title {
+  display: inline-block;
+  justify-content: center;
+  background: linear-gradient(
+    90deg,
+    red,
+    orange,
+    yellow,
+    green,
+    blue,
+    indigo,
+    violet
+  );
+  background-size: 300% 100%;
+  background-clip: text;
+  color: transparent;
+  animation: rainbowMove 4s linear infinite;
+}
+
+@keyframes rainbowMove {
+  0% {
+    background-position: 300% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+canvas {
+  display: block;
+  width: auto;
+  height: auto;
+}
+
+.game-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
