@@ -13,12 +13,32 @@ const button3 = document.getElementById("option3");
 
 window.addEventListener("load", resizeCanvas);
 
+document.addEventListener("keydown", (event) => {
+
+  let newDirection = -1;
+
+  if (event.key === "w" || event.key === "ArrowUp") newDirection = 0;
+  else if (event.key === "d" || event.key === "ArrowRight") newDirection = 1;
+  else if (event.key === "s" || event.key === "ArrowDown") newDirection = 2;
+  else if (event.key === "a" || event.key === "ArrowLeft") newDirection = 3;
+
+  if (newDirection === -1) return;
+
+  if (newDirection === opposite[direction] || nextDirection !== direction) {
+    return;
+  }
+
+  nextDirection = newDirection;
+
+});
+
 button1.addEventListener("click", () => {
   if (rows == 5 && cols == 10) {
     return;
   }
   rows = 5;
   cols = 10;
+  resetGame();
   resizeCanvas();
 });
 
@@ -28,6 +48,7 @@ button2.addEventListener("click", () => {
   }
   rows = 10;
   cols = 15;
+  resetGame();
   resizeCanvas();
 });
 
@@ -37,6 +58,7 @@ button3.addEventListener("click", () => {
   }
   rows = 15;
   cols = 20;
+  resetGame();
   resizeCanvas();
 });
 
@@ -102,6 +124,7 @@ function getFood() {
   let newFood;
 
   while (true) {
+
     newFood = {
       x: Math.floor(Math.random() * cols),
       y: Math.floor(Math.random() * rows)
@@ -131,63 +154,58 @@ function draw() {
 }
 
 function update() {
-  const newHead = getNextCell();
 
-  if (newHead === null || snake.length === rows * cols) {
+  direction = nextDirection;
+
+  const newHead = getNextHead();
+
+  if (newHead.x < 0 || newHead.x >= cols || newHead.y < 0 || newHead.y >= rows || snake.length === rows * cols) {
     running = false;
     return;
   }
 
-  let foodEaten = false;
-  let index;
+  const foodIndex = foods.findIndex(
+    (food) => food.x === newHead.x && food.y === newHead.y
+  );
 
-  for (let i = 0; i < foods.length; ++i) {
-    if (foods[i].x === newHead.x && foods[i].y === newHead.y) {
-      foodEaten = true;
-      index = i;
-      break;
+  if (foodIndex === -1) {
+    snake.pop();
+  } else {
+    foods.splice(foodIndex, 1);
+    if (snake.length + 1 < rows * cols) {
+      foods.push(getFood());
+    }
+  }
+
+  for (const segment of snake) {
+    if (segment.x === newHead.x && segment.y === newHead.y) {
+      running = false;
+      return;
     }
   }
 
   snake.unshift(newHead);
 
-  if (!foodEaten) {
-    snake.pop();
-  } else {
-    foods.splice(index, 1);
-    foods.push(getFood());
-  }
-
 }
 
-function getNextCell() {
-
+function getNextHead() {
   const head = snake[0];
-
   const newHead = {
     x: head.x + dirs[direction].x,
     y: head.y + dirs[direction].y
   };
-
-  if (newHead.x < 0 || newHead.x >= cols || newHead.y < 0 || newHead.y >= rows) {
-    return null;
-  }
-
-  for (const segment of snake) {
-    if (segment.x === newHead.x && segment.y === newHead.y) {
-      return null;
-    }
-  }
   return newHead;
-
 }
 
 let running = true;
 
-let speed = 1000; // ms
+let speed = 300; // ms
 
 // 0 = up, 1 = right, 2 = down, 3 = left
 let direction = 1;
+let nextDirection = 1;
+
+const opposite = [2, 3, 0, 1];
 
 let snake = [{ x: 1, y: 0 }, { x: 0, y: 0 }];
 
@@ -207,6 +225,12 @@ function gameLoop() {
   draw();
   setTimeout(gameLoop, speed);
 
+}
+
+function resetGame() {
+  running = true;
+  snake = [{ x: 1, y: 0 }, { x: 0, y: 0 }];
+  foods = [getFood()];
 }
 
 gameLoop();
