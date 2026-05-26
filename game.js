@@ -94,28 +94,43 @@ function drawGrid() {
 
 function drawSnake() {
 
-  ctx.lineJoin = "round";
-  ctx.lineWidth = 4;
+  const offset = cellSize / 3;
 
-  for (let i = 0; i < snake.length; ++i) {
-    const segment = snake[i];
-    const x = segment.x * cellSize;
-    const y = segment.y * cellSize;
-    ctx.fillStyle = i === 0 ? "lime" : "green";
-    ctx.fillRect(x, y, cellSize, cellSize);
+  ctx.beginPath();
+
+  ctx.fillStyle = "lime";
+
+  let headX = snake[0].x * cellSize + (cellSize / 2);
+  let headY = snake[0].y * cellSize + (cellSize / 2);
+
+  if (direction == 0) {
+    headY += offset;
+  } else if (direction == 1) {
+    headX -= offset;
+  } else if (direction == 2) {
+    headY -= offset;
+  } else {
+    headX += offset;
+  }
+
+  ctx.arc(headX, headY, cellSize / 2, 0, Math.PI * 2, false);
+
+  ctx.fill();
+
+  ctx.fillStyle = "green";
+
+  for (let i = 1; i < snake.length; ++i) {
+    ctx.fillRect(snake[i].x * cellSize, snake[i].y * cellSize, cellSize, cellSize);
   }
 
 }
 
 function drawFood() {
+  ctx.font = `${cellSize * 0.75}px sans-serif`;
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
   for (const food of foods) {
-    ctx.fillStyle = "red";
-    ctx.fillRect(
-      food.x * cellSize,
-      food.y * cellSize,
-      cellSize,
-      cellSize
-    );
+    ctx.fillText("🍎", food.x * cellSize + cellSize / 2, food.y * cellSize + cellSize / 2);
   }
 }
 
