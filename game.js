@@ -22,11 +22,11 @@ document.addEventListener("keydown", (event) => {
   else if (event.key === "s" || event.key === "ArrowDown") newDirection = 2;
   else if (event.key === "a" || event.key === "ArrowLeft") newDirection = 3;
 
-  if (newDirection === -1) return;
-
-  if (newDirection === opposite[direction] || nextDirection !== direction) {
-    return;
-  }
+  if (
+    newDirection === -1 ||
+    newDirection === opposite[direction] ||
+    nextDirection !== direction
+  ) return;
 
   nextDirection = newDirection;
 
@@ -136,7 +136,7 @@ function drawFood() {
 
 function getFood() {
 
-  let newFood;
+  let newFood = null;
 
   while (true) {
 
