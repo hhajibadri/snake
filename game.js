@@ -7,6 +7,8 @@ const cellSize = 50;
 let rows = 5;
 let cols = 10;
 
+let gameInterval;
+
 const button1 = document.getElementById("option1");
 const button2 = document.getElementById("option2");
 const button3 = document.getElementById("option3");
@@ -33,36 +35,27 @@ document.addEventListener("keydown", (event) => {
 });
 
 button1.addEventListener("click", () => {
-  if (rows == 5 && cols == 10) {
-    return;
-  }
   rows = 5;
   cols = 10;
   resetGame();
   resizeCanvas();
-  gameLoop();
+  startGame();
 });
 
 button2.addEventListener("click", () => {
-  if (rows == 10 && cols == 15) {
-    return;
-  }
   rows = 10;
   cols = 15;
   resetGame();
   resizeCanvas();
-  gameLoop();
+  startGame();
 });
 
 button3.addEventListener("click", () => {
-  if (rows == 15 && cols == 20) {
-    return;
-  }
   rows = 15;
   cols = 20;
   resetGame();
   resizeCanvas();
-  gameLoop();
+  startGame();
 });
 
 function resizeCanvas() {
@@ -236,20 +229,23 @@ const dirs = [
   { x: -1, y: 0 }  // left
 ];
 
-function gameLoop() {
+function startGame() {
 
-  if (!running) return;
-  update();
-  draw();
-  setTimeout(gameLoop, speed);
+  clearInterval(gameInterval);
 
+  gameInterval = setInterval(() => {
+    if (!running) return;
+    update();
+    draw();
+  }, speed);
 }
 
 function resetGame() {
+  direction = nextDirection = 1;
   running = true;
   snake = [{ x: 1, y: 0 }, { x: 0, y: 0 }];
   foods = [getFood()];
 }
 
-gameLoop();
+startGame();
 
