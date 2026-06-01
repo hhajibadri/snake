@@ -40,6 +40,7 @@ button1.addEventListener("click", () => {
   cols = 10;
   resetGame();
   resizeCanvas();
+  gameLoop();
 });
 
 button2.addEventListener("click", () => {
@@ -50,6 +51,7 @@ button2.addEventListener("click", () => {
   cols = 15;
   resetGame();
   resizeCanvas();
+  gameLoop();
 });
 
 button3.addEventListener("click", () => {
@@ -60,6 +62,7 @@ button3.addEventListener("click", () => {
   cols = 20;
   resetGame();
   resizeCanvas();
+  gameLoop();
 });
 
 function resizeCanvas() {

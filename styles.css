@@ -62,7 +62,7 @@ h2 {
   cursor: pointer;
 
   /* smooth motion */
-  transition: transform 0.12s cubic-bezier(.2,.8,.2,1), box-shadow 0.12s;
+  transition: transform 0.12s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.12s;
 
   /* raised look */
   box-shadow: 0 4px 0 cornflowerblue;
