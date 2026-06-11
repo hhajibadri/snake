@@ -90,33 +90,17 @@ function drawGrid() {
 
 function drawSnake() {
 
-  const offset = cellSize / 3;
+  for (let i = 0; i < snake.length; ++i) {
 
-  ctx.beginPath();
-
-  ctx.fillStyle = "lime";
-
-  let headX = snake[0].x * cellSize + (cellSize / 2);
-  let headY = snake[0].y * cellSize + (cellSize / 2);
-
-  if (direction == 0) {
-    headY += offset;
-  } else if (direction == 1) {
-    headX -= offset;
-  } else if (direction == 2) {
-    headY -= offset;
-  } else {
-    headX += offset;
-  }
-
-  ctx.arc(headX, headY, cellSize / 2, 0, Math.PI * 2, false);
-
-  ctx.fill();
-
-  ctx.fillStyle = "green";
-
-  for (let i = 1; i < snake.length; ++i) {
+    ctx.fillStyle = `hsl(${(i / snake.length) * 360}, 100%, 50%)`;
     ctx.fillRect(snake[i].x * cellSize, snake[i].y * cellSize, cellSize, cellSize);
+
+
+    ctx.fillStyle = "white";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.font = `${cellSize * 0.4}px sans-serif`;
+    ctx.fillText(i+1, snake[i].x * cellSize + cellSize / 2, snake[i].y * cellSize + cellSize / 2);
   }
 
 }
@@ -175,19 +159,6 @@ function update() {
     return;
   }
 
-  const foodIndex = foods.findIndex(
-    (food) => food.x === newHead.x && food.y === newHead.y
-  );
-
-  if (foodIndex === -1) {
-    snake.pop();
-  } else {
-    foods.splice(foodIndex, 1);
-    if (snake.length + 1 < rows * cols) {
-      foods.push(getFood());
-    }
-  }
-
   for (const segment of snake) {
     if (segment.x === newHead.x && segment.y === newHead.y) {
       running = false;
@@ -196,6 +167,17 @@ function update() {
   }
 
   snake.unshift(newHead);
+
+  const foodIndex = foods.findIndex(
+    (food) => food.x === newHead.x && food.y === newHead.y
+  );
+
+  if (foodIndex !== -1) {
+    foods.splice(foodIndex, 1);
+    foods.push(getFood());
+  } else {
+    snake.pop();
+  }
 
 }
 
